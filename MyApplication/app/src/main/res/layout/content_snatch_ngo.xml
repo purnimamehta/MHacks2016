@@ -15,5 +15,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Snatch N Go"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a store"
+        android:id="@+id/button1"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="66dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="jumpToPage" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find a store near you"
+        android:id="@+id/button2"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="157dp"
+        android:onClick="jumpToPage" />
+
 </RelativeLayout>

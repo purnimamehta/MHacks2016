@@ -49,4 +49,9 @@ public class SnatchNGo extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void jumpToPage(View view) {
+    }
+
+    mViewPager.setCurrentItem(1);
 }

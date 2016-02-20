@@ -23,7 +23,7 @@
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
-        <div class="container">
+        <div class="ui container">
         <div ng-repeat="locations in table">
             <div ng-repeat="(location, locationValues) in locations">
                 <h1 class="locationTitle">{{locationValues.name}}</h1>
@@ -31,14 +31,16 @@
                 <div ng-repeat="(key, orders) in locationValues">
                     <div ng-if="key == 'orders'">
                         <div class="container">
-                        <table class="table">
+                        <table class="table ui celled">
                             <tr>
-                                <th style="width:200px">Name</th>
-                                <th>Order Items</th>
+                                <th style="width:50%;padding:10px">Name</th>
+                                <th class="right aligned" style="padding:10px">Order Items</th>
                             </tr>
                             <tr ng-repeat="(order, orderValues) in orders">
-                                <td class="orderName">{{orderValues.name}}</td>
-                                <td>
+                                <td class="orderName"><h3>{{orderValues.name}}</h3>
+                                <p>{{orderValues.phone_number}}</p>
+                                </td>
+                                <td style="padding:4px !important;">
                                     <div ng-repeat="(key, items) in orderValues">
                                         <div ng-if="key == 'items'">
                                             <order-directive path="'locations/'+location+'/orders/'+order+'/items'">

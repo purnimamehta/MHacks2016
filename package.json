@@ -1,0 +1,14 @@
+{
+    "name"         : "Snatch-and-go",
+    "version"      : "0.0.0",
+    "description"  : "Helps fulfill your food desires in a jiffy!",
+    "main"         : "server.js",
+    "author"       : "Jeffrey Xiao",
+    "dependencies" : {
+        "express"    : "~4.7.2",
+        "morgan"     : "~1.2.2",
+        "body-parser": "~1.5.2",
+        "method-override": "~2.1.2",
+        "firebase"   : "*"
+    }
+}

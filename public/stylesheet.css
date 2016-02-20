@@ -18,10 +18,16 @@
     
 }
 */
-.order-item {
-  text-align: right; }
 
-.checked {
-  text-decoration: line-through; }
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.locationTitle{
+    margin-left:20px;
+    font-weight:600;
+    letter-spacing: 2px;
+}
+
 
 /*# sourceMappingURL=stylesheet.css.map */

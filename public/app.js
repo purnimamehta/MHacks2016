@@ -22,7 +22,11 @@ var mod = angular.module('snatch-and-go', ['firebase'])
           
             $scope.numOfChildren = 0;
             $scope.numOfChecked = 0;
+            $scope.deleted = false;
             $scope.orderList.$watch(function(snapshot) {
+                if ($scope.deleted)
+                    return;
+                
                 if (snapshot.event == 'child_added') {
                     $scope.numOfChildren++;
                     if (getValue($scope.orderList.$getRecord(snapshot.key)))
@@ -57,7 +61,7 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                         var name = $scope.orderListParent.$getRecord('name').$value;
                     
                         var data = {phone_number: phone_number, name: name, items: stringItems};
-                        console.log(data);    
+                        console.log($scope.deleted);    
                         $http.get('/api/sendSms/:'+"+1"+phone_number+"/:"+name+"/:"+stringItems)
                             .success(function(success) {
                                 console.log(success);
@@ -65,7 +69,8 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                             .error(function(error) {
                                 console.log(error);    
                             });
-                        //$scope.orderListRef.parent().set(null);
+                        $scope.orderListRef.parent().set(null);
+                        $scope.deleted = true;
                     }
                 }
             });

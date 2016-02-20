@@ -4,7 +4,7 @@ var morgan = require('morgan');                         // log requests to the c
 var bodyParser = require('body-parser');                // pull information from HTML POST (express4)
 var methodOverride = require('method-override');        // simulate DELETE and PUT (express4)
 var twilio = require('twilio');
-var client = new twilio.RestClient('AC8d97c5d87de31f92b2487444f0322533', '51c9234232cd01347f6ca2321242475b');
+var client = new twilio.RestClient('AC21e4cd00e17c6a8b869d342477b452b9', '2bf80446f55f331254c1cd8648b512b4');
 var router = express.Router();
 
 
@@ -20,12 +20,14 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 
 router.get('/api/sendSms/:phone_number/:name/:items', function(req, res, next) {
+    /*
     console.log(req.params.phone_number.substring(1));
     console.log(req.params.name.substring(1));
     console.log(req.params.items.substring(1));
+    */
     client.sendSms({
         to: req.params.phone_number.substring(1),
-        from: '+15005550006',
+        from: '+17342125122',
         body: req.params.name.substring(1)+', your order ' + req.params.items.substring(1) + ' is ready for pick up!'
     }, function (error, message) {
         if (error) {

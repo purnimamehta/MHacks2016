@@ -13,14 +13,16 @@ var mod = angular.module('snatch-and-go', ['firebase'])
       scope: {
         path: '&'
       },
-      controller: function($scope, $firebaseArray) {
+      controller: function($scope, $firebaseArray, $http) {
             $scope.orderListRef = ref.child($scope.path());
             $scope.orderList = $firebaseArray($scope.orderListRef);
             
+            $scope.orderListParentRef = $scope.orderListRef.parent();
+            $scope.orderListParent = $firebaseArray($scope.orderListParentRef);
+          
             $scope.numOfChildren = 0;
             $scope.numOfChecked = 0;
             $scope.orderList.$watch(function(snapshot) {
-                /*
                 if (snapshot.event == 'child_added') {
                     $scope.numOfChildren++;
                     if (getValue($scope.orderList.$getRecord(snapshot.key)))
@@ -35,15 +37,37 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                     else
                         $scope.numOfChecked--;
                     if ($scope.numOfChecked == $scope.numOfChildren) {
-                        console.log("HERE");
-                        console.log($scope.orderListParent.$getRecord('name').$value);
-                        console.log($scope.orderListParent.$getRecord('phone_number').$value);
+                        var arrayItems = [];
+                        for (var item in $scope.orderListParent.$getRecord('items')) {
+                            if (item.indexOf('$') != 0) {
+                                arrayItems.push(item);
+                            }
+                        }
+                        var stringItems = "";
+                        for (var i = 0; i < arrayItems.length; i++) {
+                            if (i == arrayItems.length - 1) {
+                                stringItems += arrayItems[i];
+                            } else if (i == arrayItems.length - 2) {
+                                stringItems += arrayItems[i] + " and ";
+                            } else {
+                                stringItems += arrayItems[i] + ", ";
+                            }
+                        }
+                        var phone_number = $scope.orderListParent.$getRecord('phone_number').$value;
+                        var name = $scope.orderListParent.$getRecord('name').$value;
+                    
+                        var data = {phone_number: phone_number, name: name, items: stringItems};
+                        console.log(data);    
+                        $http.get('/api/sendSms/:'+"+1"+phone_number+"/:"+name+"/:"+stringItems)
+                            .success(function(success) {
+                                console.log(success);
+                            })
+                            .error(function(error) {
+                                console.log(error);    
+                            });
                         //$scope.orderListRef.parent().set(null);
-                        //console.log($scope.orderList.$getRecord('phone_number').$value);
-                        //console.log($scope.orderList.child('items'));
-                        //sendSms();
                     }
-                }*/
+                }
             });
       },
       template:

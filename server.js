@@ -4,6 +4,25 @@ var morgan = require('morgan');                         // log requests to the c
 var bodyParser = require('body-parser');                // pull information from HTML POST (express4)
 var methodOverride = require('method-override');        // simulate DELETE and PUT (express4)
 
+var sendSms = function (phone_number, items, location) {
+    var twilio = require('twilio');
+    var client = new twilio.RestClient('AC8d97c5d87de31f92b2487444f0322533', '51c9234232cd01347f6ca2321242475b');
+
+    client.sendSms({
+        to: phone_number,
+        from: '7342125122',
+        body: 'Your order ' + items + ' is ready for pick up at ' + location + '!'
+    }, function (error, message) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Success! The SID for this SMS message is:');
+            console.log(message.sid);
+            console.log('Message sent on:');
+            console.log(message.dateCreated);
+        }
+    });
+}
 
 // configuration =================
 

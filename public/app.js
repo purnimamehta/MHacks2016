@@ -1,4 +1,3 @@
-
 var ref = new Firebase('https://snatch-and-go.firebaseio.com/');
 
 var getValue = function (key) {
@@ -17,9 +16,11 @@ var mod = angular.module('snatch-and-go', ['firebase'])
       controller: function($scope, $firebaseArray) {
             $scope.orderListRef = ref.child($scope.path());
             $scope.orderList = $firebaseArray($scope.orderListRef);
+            
             $scope.numOfChildren = 0;
             $scope.numOfChecked = 0;
             $scope.orderList.$watch(function(snapshot) {
+                /*
                 if (snapshot.event == 'child_added') {
                     $scope.numOfChildren++;
                     if (getValue($scope.orderList.$getRecord(snapshot.key)))
@@ -34,10 +35,15 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                     else
                         $scope.numOfChecked--;
                     if ($scope.numOfChecked == $scope.numOfChildren) {
-                        console.log("deleted");
-                        $scope.orderListRef.parent().set(null);
+                        console.log("HERE");
+                        console.log($scope.orderListParent.$getRecord('name').$value);
+                        console.log($scope.orderListParent.$getRecord('phone_number').$value);
+                        //$scope.orderListRef.parent().set(null);
+                        //console.log($scope.orderList.$getRecord('phone_number').$value);
+                        //console.log($scope.orderList.child('items'));
+                        //sendSms();
                     }
-                }
+                }*/
             });
       },
       template:

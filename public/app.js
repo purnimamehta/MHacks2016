@@ -44,7 +44,7 @@ var mod = angular.module('snatch-and-go', ['firebase'])
         '<table class="inner-table">' +
             '<tr ng-repeat="(item, selected) in orderList">' +
                 '<td>' + 
-                    '<span ng-class="{checked:selected.$value}">{{orderList.$keyAt(item)}}</span>' +
+                    '<span ng-class="{checked:selected.$value}" id="orderName">{{orderList.$keyAt(item)}}</span>' +
                     '<input type="checkbox" ' +
                         'ng-change="orderList.$save(item)" ' +
                         'ng-model="selected.$value">' +

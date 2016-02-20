@@ -18,16 +18,19 @@
     
 }
 */
+.order-item {
+  text-align: right; }
 
-body{
-    font-family: 'Open Sans', sans-serif;
-}
+.checked {
+  text-decoration: line-through; }
 
-.locationTitle{
-    margin-left:20px;
-    font-weight:600;
-    letter-spacing: 2px;
-}
+.order-item {
+  text-align: right; }
 
+.checked {
+  text-decoration: line-through; }
+
+#orderName {
+  margin-right: 10px; }
 
 /*# sourceMappingURL=stylesheet.css.map */

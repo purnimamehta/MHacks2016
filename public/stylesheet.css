@@ -35,5 +35,14 @@
 
 .locationTitle {
   font-size: 3em; }
-
+.contact-container {
+    margin: 0 auto;
+    display: block;
+    width: 200px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 /*# sourceMappingURL=stylesheet.css.map */

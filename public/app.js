@@ -89,9 +89,38 @@ var mod = angular.module('snatch-and-go', ['firebase'])
       replace: true
     };
   });
-
+function authDataCallback(authData) {
+  if (authData) {
+    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+  } else {
+    console.log("User is logged out");
+  }
+}
 
 mod.controller("mainController",  function($scope, $http, $firebaseArray) {
     $scope.table = $firebaseArray(ref);
+    $scope.loggedIn = false;
+    
+    $scope.submit = function () {
+        
+        ref.authWithPassword({
+        email : document.getElementById('email').value,
+        password: document.getElementById('password').value
+    }, function (error, authData) {
+        if (error) {
+            console.log("Login Failed!", error);
+        } else {
+            console.log("Authenticated successfully!", authData);
+            $scope.loggedIn = true;
+            $scope.currLocation = authData.password.email.split("@")[0];
+            $scope.$apply();
+        }
+    });
+    }
+    
+    $scope.logout = function () {
+        ref.unauth();
+        $scope.loggedIn = false;
+    }
 });
 

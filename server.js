@@ -6,7 +6,7 @@ var methodOverride = require('method-override');        // simulate DELETE and P
 var twilio = require('twilio');
 var client = new twilio.RestClient('AC21e4cd00e17c6a8b869d342477b452b9', '2bf80446f55f331254c1cd8648b512b4');
 var router = express.Router();
-
+var Firebase = require('firebase');
 
 
 
@@ -42,6 +42,24 @@ router.get('/api/sendSms/:phone_number/:name/:items', function(req, res, next) {
         }
     });
 });
+
+router.post('/userAuth', function(req, res){
+    var ref = new Firebase('https://snatch-and-go.firebaseio.com/');
+    ref.authWithPassword({
+        email : req.body.user.email,
+        password: req.body.user.pass
+    }, function (error, authData) {
+        if (error) {
+            console.log("Login Failed!", error);
+        } else {
+            console.log("Authenticated successfully!", authData);
+            res.statusCode = 302;
+            res.setHeader("Location", '/');
+            res.end();
+        }
+    });
+});
+
 
 app.use('', router);
 

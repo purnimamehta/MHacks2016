@@ -58,10 +58,10 @@
                                 <th class="right aligned" style="padding:10px">Order Items</th>
                             </tr>
                             <tr ng-repeat="(order, orderValues) in orders" class="big-row">
-                                <td class="orderName"><h3>{{orderValues.name}}</h3>
+                                <td class="orderName" ng-if="orderValues.paid"><h3>{{orderValues.name}}</h3>
                                 <p>{{orderValues.phone_number}}</p>
                                 </td>
-                                <td style="padding:4px !important;">
+                                <td style="padding:4px !important;" ng-if="orderValues.paid">
                                     <div ng-repeat="(key, items) in orderValues">
                                         <div ng-if="key == 'items'">
                                             <order-directive path="'locations/'+location+'/orders/'+order+'/items'">

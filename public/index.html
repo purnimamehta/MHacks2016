@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html ng-app="snatch-and-go" ng-controller="mainController">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Snatch and Go</title>
+        <!-- Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+        
+        <!-- AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+        <!-- Firebase -->
+        <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+        <!-- AngularFire -->
+        <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+        <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+        <script src="app.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    </head>
+    <body>
+        <div ng-show="!loggedIn" class="landing-page">
+            <img src="logo.png" class="logo">
+            <div ng-show="!loggedIn" class="contact-container">
+                <form class="form-horizontal" ng-submit="submit()">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Email</label><br>
+                        <input type="email" class="form-control" id="email" placeholder="john.doe@gmail.com" name="user[email]">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label><br>                    
+                        <input type="password" class="form-control" id="password" placeholder="************" name="user[pass]">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-click="submit()" class="btn btn-default">Sign in</button>
+                        <p id="warning"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ui container" ng-show="loggedIn">
+        <div ng-repeat="locations in table">
+            <div ng-repeat="(location, locationValues) in locations">
+                <div ng-if="locationValues.name==currLocation">
+                
+                <h1 class="locationTitle">{{locationValues.name}}</h1>
+                
+                <div ng-repeat="(key, orders) in locationValues">
+                    <div ng-if="key == 'orders'">
+                        <div class="container">
+                        <table class="table ui celled" ng-init="orderlist = getOrderList(orders)">
+                            <tr>
+                                <th style="width:50%;padding:10px">Name</th>
+                                <th class="right aligned" style="padding:10px">Order Items</th>
+                            </tr>
+                            <tr ng-repeat="orderValues in orderlist" class="big-row">
+                                <td class="orderName" ng-if="orderValues.values.paid"><h3>{{orderValues.values.name}}</h3>
+                                    <p>{{orderValues.values.phone_number}}</p>
+                                    <p ng-init="date=formatDate(orderValues.values.time_requested)">{{date}}</p>
+                                </td>
+                                <td style="padding:4px !important;" ng-if="orderValues.values.paid">
+                                    <div ng-repeat="(key, items) in orderValues.values">
+                                        <div ng-if="key == 'items'">
+                                            <order-directive path="'locations/'+location+'/orders/'+orderValues.key+'/items'">
+                                            </order-directive>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <form class="form-horizontal" ng-submit="logout()">
+            <button type="submit" ng-click="logout()" class="btn btn-default btn-small">Logout</button>    
+        </form>
+    </div>
+    </body>
+</html>

@@ -40,7 +40,8 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                         $scope.numOfChecked++;
                     else
                         $scope.numOfChecked--;
-                    if ($scope.numOfChecked == $scope.numOfChildren) {
+                    if ($scope.numOfChecked == $scope.numOfChildren) {    
+                        $scope.deleted = true;
                         var arrayItems = [];
                         for (var item in $scope.orderListParent.$getRecord('items')) {
                             if (item.indexOf('$') != 0) {
@@ -61,7 +62,7 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                         var name = $scope.orderListParent.$getRecord('name').$value;
                     
                         var data = {phone_number: phone_number, name: name, items: stringItems};
-                        console.log($scope.deleted);    
+                        console.log($scope.deleted);
                         $http.get('/api/sendSms/:'+"+1"+phone_number+"/:"+name+"/:"+stringItems)
                             .success(function(success) {
                                 console.log(success);
@@ -70,7 +71,6 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                                 console.log(error);    
                             });
                         $scope.orderListRef.parent().set(null);
-                        $scope.deleted = true;
                     }
                 }
             });
@@ -97,7 +97,7 @@ function authDataCallback(authData) {
   }
 }
 
-mod.controller("mainController",  function($scope, $http, $firebaseArray) {
+mod.controller("mainController",  function($scope, $http, $firebaseArray, $document) {
     $scope.table = $firebaseArray(ref);
     $scope.loggedIn = false;
     
@@ -108,6 +108,7 @@ mod.controller("mainController",  function($scope, $http, $firebaseArray) {
         password: document.getElementById('password').value
     }, function (error, authData) {
         if (error) {
+            document.getElementById('warning').textContent = "Incorrect credentials";
             console.log("Login Failed!", error);
         } else {
             console.log("Authenticated successfully!", authData);

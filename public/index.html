@@ -23,26 +23,24 @@
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
-        <div ng-show="!loggedIn" class="contact-container">
-            <form class="form-horizontal" ng-submit="submit()">
-                <div class="form-group">
-                    <label for="email" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="email" placeholder="Email" name="user[email]">
+        <div ng-show="!loggedIn" class="landing-page">
+            <img src="logo.jpg" class="logo">
+            <div ng-show="!loggedIn" class="contact-container">
+                <form class="form-horizontal" ng-submit="submit()">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Email</label><br>
+                        <input type="email" class="form-control" id="email" placeholder="john.doe@gmail.com" name="user[email]">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="password" placeholder="Password" name="user[pass]">
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label><br>                    
+                        <input type="password" class="form-control" id="password" placeholder="************" name="user[pass]">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group">
                         <button type="submit" ng-click="submit()" class="btn btn-default">Sign in</button>
+                        <p id="warning"></p>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div class="ui container" ng-show="loggedIn">
         <div ng-repeat="locations in table">
@@ -59,7 +57,7 @@
                                 <th style="width:50%;padding:10px">Name</th>
                                 <th class="right aligned" style="padding:10px">Order Items</th>
                             </tr>
-                            <tr ng-repeat="(order, orderValues) in orders">
+                            <tr ng-repeat="(order, orderValues) in orders" class="big-row">
                                 <td class="orderName"><h3>{{orderValues.name}}</h3>
                                 <p>{{orderValues.phone_number}}</p>
                                 </td>
@@ -80,7 +78,7 @@
             </div>
         </div>
         <form class="form-horizontal" ng-submit="logout()">
-            <button type="submit" ng-click="logout()" class="btn btn-default">Logout</button>    
+            <button type="submit" ng-click="logout()" class="btn btn-default btn-small">Logout</button>    
         </form>
     </div>
     </body>

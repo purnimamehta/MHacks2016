@@ -20,11 +20,6 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 
 router.get('/api/sendSms/:phone_number/:name/:items', function(req, res, next) {
-    /*
-    console.log(req.params.phone_number.substring(1));
-    console.log(req.params.name.substring(1));
-    console.log(req.params.items.substring(1));
-    */
     client.sendSms({
         to: req.params.phone_number.substring(1),
         from: '+17342125122',

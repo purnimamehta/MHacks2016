@@ -27,10 +27,9 @@ var mod = angular.module('snatch-and-go', ['firebase'])
           
             $scope.numOfChildren = 0;
             $scope.numOfChecked = 0;
-            $scope.deleted = false;
             $scope.orderList.$watch(function(snapshot) {
                 if ($scope.deleted)
-                    return;
+                    return null;
                 
                 if (snapshot.event == 'child_added') {
                     $scope.numOfChildren++;
@@ -45,7 +44,10 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                         $scope.numOfChecked++;
                     else
                         $scope.numOfChecked--;
-                    if ($scope.numOfChecked == $scope.numOfChildren && !$scope.deleted) {    
+                    if ($scope.numOfChecked == $scope.numOfChildren) {
+                        console.log($scope.deleted);
+                        if ($scope.deleted)
+                            return null;
                         $scope.deleted = true;
                         var arrayItems = [];
                         for (var item in $scope.orderListParent.$getRecord('items')) {
@@ -65,7 +67,7 @@ var mod = angular.module('snatch-and-go', ['firebase'])
                         }
                         var phone_number = $scope.orderListParent.$getRecord('phone_number').$value;
                         var name = $scope.orderListParent.$getRecord('name').$value;
-                    
+                        console.log($scope.deleted);
                         var data = {phone_number: phone_number, name: name, items: stringItems};
                         $http.get('/api/sendSms/:'+"+1"+phone_number+"/:"+name+"/:"+stringItems)
                             .success(function(success) {
@@ -120,6 +122,7 @@ mod.controller("mainController",  function($scope, $http, $firebaseArray, $docum
             console.log("Login Failed!", error);
         } else {
             console.log("Authenticated successfully!", authData);
+            document.getElementById('warning').textContent = "";
             $scope.loggedIn = true;
             $scope.currLocation = authData.password.email.split("@")[0];
             $scope.$apply();
@@ -137,13 +140,11 @@ mod.controller("mainController",  function($scope, $http, $firebaseArray, $docum
         for (var key in orders) {
             if (orders.hasOwnProperty(key) && typeof orders[key].paid != 'undefined') {
                 ret.push({'key':key, 'values':orders[key]});
-                console.log({'key':key, 'values':orders[key]}.values.time_requested);
             }  
         }
         ret.sort(function(a, b) {
             return String(a.values.time_requested).localeCompare(String(b.values.time_requested));
         });
-        console.log(ret);
         return ret;
     }
     
